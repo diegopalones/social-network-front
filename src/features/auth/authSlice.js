@@ -18,6 +18,18 @@ const initialState = {
         
     })
 
+    export const login = createAsyncThunk('auth/login',async(user)=>{
+        try {
+           await authService.login(user)
+            
+        } catch (error) {
+            console.error(error)
+            
+        }
+
+        
+    })
+
     
     export const authSlice = createSlice({
     
