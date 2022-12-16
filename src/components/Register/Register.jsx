@@ -7,7 +7,7 @@ const Register = () => {
 
 const [formData, setFormData] = useState({
 
-name:'',
+username:'',
 
 email:'',
 
@@ -42,7 +42,7 @@ return (
 
 <form onSubmit={onSubmit}>
 
-<input type="text" name="name" value={username} onChange={onChange} placeholder="usuario"/>
+<input type="text" name="username" value={username} onChange={onChange} placeholder="usuario"/>
 
 <input type="email" name="email" value={email} onChange={onChange} placeholder="correo"/>
 
