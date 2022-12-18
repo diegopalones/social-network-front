@@ -28,7 +28,12 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== password2) {
+    if (password === "" || password2 === "") {
+      return notification.error({
+        message: "Error",
+        description: "Choriso!No puedes dejar este campo vacío",
+      });
+    } else if (password !== password2) {
       return notification.error({
         message: "Error",
         description: "No coinciden las contraseñas",

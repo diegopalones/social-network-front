@@ -4,16 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../features/auth/authSlice";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate;
-  const { user } = useSelector((state) => state.auth);
-  const onLogout = (e) => {
-    e.preventDefault();
-    dispatch(logout());
-    setTimeout(() => {
-      navigate("/register");
-    }, 3000);
-  };
+    const dispatch = useDispatch();
+    const { navigate } = useNavigate(); 
+    const { user } = useSelector((state) => state.auth);
+    const onLogout = (e) => {
+      e.preventDefault();
+      dispatch(logout());
+      setTimeout(() => {
+        navigate("/"); 
+      }, 3000);
+    };
 
   return (
     <div>
