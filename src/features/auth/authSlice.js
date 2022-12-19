@@ -4,6 +4,9 @@ import authService from "./authService";
 const user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
   user: user ? user : null,
+  isError: false,
+  isSuccess: false,
+  msg: "",
 };
 
 export const register = createAsyncThunk("auth/register", async (user) => {
@@ -43,6 +46,12 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+
+      .addCase(register.fulfilled, (state, action) => {
+        state.isSuccess = true;
+
+        state.msg = action.payload.msg;
       });
   },
 });

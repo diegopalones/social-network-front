@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../features/auth/authSlice";
 import { notification } from "antd";
 
@@ -16,6 +16,17 @@ const Register = () => {
 
   const { username, email, password, password2 } = formData;
   const dispatch = useDispatch();
+  const { isSuccess, msg } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isSuccess) {
+      notification.success({
+        msg: "Success",
+
+        description: msg,
+      });
+    }
+  }, [isSuccess]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -40,10 +51,10 @@ const Register = () => {
       });
     } else {
       dispatch(register(formData));
-      return notification.success({
-        message: "Bienvenid@",
-        description: "Gracias por registrarte",
-      });
+      // return notification.success({
+      //   message: "Bienvenid@",
+      //   description: "Gracias por registrarte",
+      // });
     }
   };
 
