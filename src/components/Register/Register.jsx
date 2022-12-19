@@ -26,7 +26,13 @@ const Register = () => {
         description: msg,
       });
     }
-  }, [isSuccess]);
+    // if(isError){
+    //   notification.error({
+    //     msg:"Error",
+    //     description: msg,
+    //   })
+    // }
+  }, [isSuccess, msg]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
