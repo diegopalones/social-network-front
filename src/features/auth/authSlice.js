@@ -6,18 +6,21 @@ const initialState = {
   user: user ? user : null,
   isError: false,
   isSuccess: false,
+  isSuccessLogout: false,
+
   msg: "",
 };
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (user) => {
+  async (user,thunkAPI) => {
     try {
       return await authService.register(user);
     } catch (error) {
       console.error(error);
-      // const msg = error.response.data.errors[0].msg;
-      // return thunkAPI.rejectWithValue(msg);
+      console.log(error.response.data)
+      const msg = error.response.data.message? error.response.data.message[0]:error.response.data.messages;
+      return thunkAPI.rejectWithValue(msg);
     }
   }
 );
@@ -43,7 +46,18 @@ export const authSlice = createSlice({
 
   initialState,
 
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+
+      state.isError = false;
+      
+      state.isSuccess = false;
+      state.isSuccessLogout = false;
+
+      state.message = "";
+      
+      },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
@@ -51,9 +65,11 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.msg = action.payload.msg;
       })
-      .addCase(logout.fulfilled, (state) => {
+      .addCase(logout.fulfilled, (state,action) => {
         state.user = null;
-        
+        state.isSuccessLogout = true;
+
+        state.msg = action.payload.msg;
       })
 
       .addCase(register.fulfilled, (state, action) => {
@@ -66,17 +82,12 @@ export const authSlice = createSlice({
 
       //   state.msg = action.payload.msg;
       // });
-      // .addCase(logout.fulfilled, (state, action) => {
-      //   state.isSuccess = true;
+      .addCase(register.rejected, (state, action) => {
+        state.isError = true;
 
-      //   state.msg = action.payload.msg;
-      // })
-      // .addCase(register.rejected, (state, action) => {
-      //   state.isError = true;
-
-      //   state.msg = action.payload.msg;
-      // });
+        state.msg = action.payload;
+      });
   },
 });
-
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;

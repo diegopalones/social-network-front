@@ -18,7 +18,7 @@ const Register = () => {
   const { username, email, password, password2 } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isSuccess, msg } = useSelector((state) => state.auth);
+  const { isSuccess, msg,isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSuccess) {
@@ -31,12 +31,12 @@ const Register = () => {
         navigate("/login");
       }, 2000);
     }
-    // if(isError){
-    //   notification.error({
-    //     msg:"Error",
-    //     description: msg,
-    //   })
-    // }
+    if(isError){
+      notification.error({
+        msg:"Error",
+        description: msg,
+      })
+    }
   }, [isSuccess, msg]);
 
   const onChange = (e) => {

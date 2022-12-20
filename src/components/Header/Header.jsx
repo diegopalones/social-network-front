@@ -1,12 +1,27 @@
-import React from "react";
+import { notification } from "antd";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../features/auth/authSlice";
+import { logout, reset } from "../../features/auth/authSlice";
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { navigate } = useNavigate(); 
-    const { user } = useSelector((state) => state.auth);
+    const navigate  = useNavigate(); 
+    const { user, isSuccessLogout, msg } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+      if (isSuccessLogout) {
+        notification.success({
+          msg: "Success",
+  
+          description: msg,
+        });
+        setTimeout(() => {
+          navigate("/profile");
+        }, 2000);
+      }
+      dispatch(reset())
+    }, [isSuccessLogout, msg]);
     const onLogout = (e) => {
       e.preventDefault();
       dispatch(logout());

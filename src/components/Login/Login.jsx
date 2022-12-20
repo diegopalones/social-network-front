@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../features/auth/authSlice";
+import { login, reset } from "../../features/auth/authSlice";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +34,7 @@ const Login = () => {
     //     description: msg,
     //   })
     // }
+    dispatch(reset())
   }, [isSuccess, msg]);
 
   const onChange = (e) => {
