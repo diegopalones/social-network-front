@@ -30,22 +30,33 @@ const Header = () => {
       }, 3000);
     };
 
-  return (
-    <div>
-      {user ? (
-        <>
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
-          <button onClick={onLogout}>logout</button>
-        </>
-      ) : (
-        <>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </>
-      )}
-    </div>
-  );
-};
+    return (
+      <nav>
+        <span>header</span>
+        <div>
+          <span>
+            <Link to="/">Home</Link>
+          </span>
+          {user ? (
+            <>
+              <span onClick={onLogout}>Logout</span>
+              <span>
+                <Link to="/profile">{user.user.name}</Link>
+              </span>
+            </>
+          ) : (
+            <>
+              <span>
+                <Link to="/login">Login</Link>
+              </span>
+              <span>
+                <Link to="/register">Register</Link>
+              </span>
+            </>
+          )}
+        </div>
+      </nav>
+    );
+  };
 
 export default Header;

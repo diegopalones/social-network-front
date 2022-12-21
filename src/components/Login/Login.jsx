@@ -15,7 +15,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isSuccess, msg } = useSelector((state) => state.auth);
+  const { isSuccess,isError, msg } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSuccess) {
@@ -28,12 +28,12 @@ const Login = () => {
         navigate("/profile");
       }, 2000);
     }
-    // if(isError){
-    //   notification.error({
-    //     msg:"Error",
-    //     description: msg,
-    //   })
-    // }
+    if(isError){
+      notification.error({
+        msg:"Error",
+        description: msg,
+      })
+    }
     dispatch(reset())
   }, [isSuccess, msg]);
 
