@@ -12,10 +12,10 @@ const Post = () => {
     <div>
       Post
       {posts.map((post) => (
-        <div key={post.id}>
-        <Link to={"/post/" + post.id}>
+        <div key={post._id}>
+        <Link to={"/post/" + post._id}>
           <p >Title: {post.title}</p>
-          <p> Date: {post.createdAt.substring(0,10)}</p>
+          {/* <p> Date: {post.createdAt.substring(0,10)}</p> */}
         </Link>
         </div>
       ))}
