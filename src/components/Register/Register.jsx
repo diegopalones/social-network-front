@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../features/auth/authSlice";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
+import "./Register.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ const Register = () => {
   const { username, email, password, password2 } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isSuccess, msg,isError } = useSelector((state) => state.auth);
+  const { isSuccess, msg, isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSuccess) {
@@ -31,11 +32,11 @@ const Register = () => {
         navigate("/login");
       }, 2000);
     }
-    if(isError){
+    if (isError) {
       notification.error({
-        msg:"Error",
+        msg: "Error",
         description: msg,
-      })
+      });
     }
   }, [isSuccess, msg]);
 
@@ -53,7 +54,7 @@ const Register = () => {
     if (password === "" || password2 === "") {
       return notification.error({
         message: "Error",
-        description: "Choriso!No puedes dejar este campo vacío",
+        description: "Choriso!No puedes dejar los campos vacíos",
       });
     } else if (password !== password2) {
       return notification.error({
@@ -70,42 +71,50 @@ const Register = () => {
   };
 
   return (
-    <div className="form">
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={onChange}
-          placeholder="usuario"
-        />
+    <div className="container">
+      <div className="form">
+        <form onSubmit={onSubmit}>
+          <input
+            className="form-input"
+            type="text"
+            name="username"
+            value={username}
+            onChange={onChange}
+            placeholder="usuario"
+          />
 
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={onChange}
-          placeholder="correo"
-        />
+          <input
+            className="form-input"
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            placeholder="correo"
+          />
 
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={onChange}
-          placeholder="Introduce tu contraseña"
-        />
+          <input
+            className="form-input"
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            placeholder="Introduce tu contraseña"
+          />
 
-        <input
-          type="password"
-          name="password2"
-          value={password2}
-          onChange={onChange}
-          placeholder="Repite tu contraseña"
-        />
+          <input
+            className="form-input"
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={onChange}
+            placeholder="Repite tu contraseña"
+          />
 
-        <button type="submit">Register</button>
-      </form>
+          <button className="form-button" type="submit">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
