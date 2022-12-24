@@ -30,6 +30,20 @@ export const getPostByName = createAsyncThunk("posts/getPostByName", async (titl
   }
 });
 
+export const deletePost = createAsyncThunk("posts/deletePost", async (id, thunkAPI) => {
+  try {
+      let action = await postsService.deletePost(id);
+      if (action.post == null) {
+          return thunkAPI.rejectWithValue(action)
+      }
+      return action
+  } catch (error) {
+      
+      const message = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+  }
+});
+
 
 export const postsSlice = createSlice({
   name: "posts",
@@ -37,6 +51,9 @@ export const postsSlice = createSlice({
   reducers: {
     reset: (state) => {
         state.isLoading = false;
+        state.isSuccess = false;
+            state.isError = false;
+            state.message = "";
       },
   },
   extraReducers: (builder) => {
@@ -52,9 +69,16 @@ export const postsSlice = createSlice({
     })
     builder.addCase(getPostByName.fulfilled, (state, action) => {
       state.posts = action.payload;
-    });
+    })
+    .addCase(deletePost.rejected, (state, action) => {
+      state.isError = true
+      state.isSuccess = false;
+      state.message = action.payload.message
+    })
+    
   },
 });
 
 export const { reset } = postsSlice.actions;
 export default postsSlice.reducer;
+      
