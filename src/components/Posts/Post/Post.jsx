@@ -1,26 +1,35 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { like, unLike } from "../../../features/posts/postsSlice";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 
 const Post = () => {
   const { posts, isLoading } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return <h1>Cargando...</h1>;
   }
-  return (
-    <div>
-      Post
-      {posts.map((post) => (
-        <div key={post._id}>
-        <Link to={"/post/" + post._id}>
-          <p >Title: {post.title}</p>
-          {/* <p> Date: {post.createdAt.substring(0,10)}</p> */}
-        </Link>
-        </div>
-      ))}
-    </div>
-  );
+  const post = posts.map((post) => {
+    const isAlreadyLiked = post.likes?.includes(user?.user._id);
+    console.log(post)
+    return (
+      <div className="Product" key={post._id}>
+        <h3>{post.title}</h3>
+        <p>{post.body}</p>
+        <span className="wish">likes: {post.likes?.length}</span>
+        {isAlreadyLiked ? (
+          <HeartFilled onClick={() => dispatch(unLike(post._id))} />
+        ) : (
+          <HeartOutlined onClick={() => dispatch(like(post._id))} />
+        )}
+      </div>
+    );
+  });
+
+  return <div>{post}</div>;
 };
 
 export default Post;

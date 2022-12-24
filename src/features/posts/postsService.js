@@ -29,7 +29,29 @@ const getPostByName = async (title) => {
         },
     });
     return res.data;
-  };
+  }
+
+  const like = async (_id) => {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const res = await axios.put(API_URL + "/posts/like/" + _id, {}, {
+        headers: {
+            authorization: user?.token,
+        },
+    });
+    return res.data;
+
+}
+
+const unLike = async (_id) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const res = await axios.put(API_URL + "/posts/disLike/" + _id, {}, {
+      headers: {
+          authorization: user?.token,
+      },
+  });
+  return res.data
+}
   
 
 const postsService = {
@@ -37,7 +59,9 @@ const postsService = {
 getAllPosts,
 getPostById,
 getPostByName,
-deletePost
+deletePost,
+like,
+unLike
 
 
 };
