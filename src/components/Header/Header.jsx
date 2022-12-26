@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, reset } from "../../features/auth/authSlice";
 import "./Header.css";
+import Logo1 from "../../assets/Logo1.png"
+import {LogoutOutlined,HomeOutlined} from "@ant-design/icons";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -41,16 +43,16 @@ const Header = () => {
 
   return (
     <nav>
-      <span>header</span>
+      <span> <img src={Logo1} height="80px" alt="Girl in a jacket"></img></span>
       <div>
         <span>
           <input onKeyUp={handleChange} placeholder="Buscar post" name="text" />
-          <Link to="/">Home</Link>
+          <Link to="/"><HomeOutlined /></Link>
           {/* <Link to="/profile">Profile</Link> */}
         </span>
         {user ? (
           <>
-            <span onClick={onLogout}>Logout</span>
+            <span onClick={onLogout}> {<LogoutOutlined />}</span>
             <span>
               <Link to="/profile">{user.user.name}</Link>
             </span>

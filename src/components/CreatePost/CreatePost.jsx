@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { createPost} from "../../features/posts/postsSlice";
 
+
 const CreatePost = () => {
 const [title, setTitle] = useState('');
 const [ description, setDescription ] = useState("");
