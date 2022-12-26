@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { like, unLike } from "../../../features/posts/postsSlice";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 

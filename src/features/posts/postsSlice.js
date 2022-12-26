@@ -58,6 +58,14 @@ export const unLike = createAsyncThunk("posts/like", async (_id) => {
   } catch (error) {
       console.error(error);
   }
+});
+
+export const createPost = createAsyncThunk("posts/", async (postData) => {
+  try {
+      return await postsService.createPost(postData);
+  } catch (error) {
+      console.error(error)
+  }
 })
 
 
