@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { createPost} from "../../features/posts/postsSlice";
+import "./CreatePost.scss";
 
 
 const CreatePost = () => {
@@ -22,7 +23,7 @@ function OnCreatePost (e) {
     <>
       <div>
         <div>
-          <h2>Create Post</h2>
+          <h2>cuentanos tus penas</h2>
         </div>
       </div>
 
