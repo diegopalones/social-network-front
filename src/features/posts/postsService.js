@@ -62,6 +62,18 @@ const createPost = async (postData) => {
     });
     return res.data
 }
+const updatePost = async (post) => {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const res = await axios.put(API_URL + "/posts/id/" + post._id, post, {
+        headers: {
+            authorization: user?.token
+        }
+    })
+
+
+    return res.data
+};
   
 
 const postsService = {
@@ -72,7 +84,8 @@ getPostByName,
 deletePost,
 like,
 unLike,
-createPost
+createPost,
+updatePost
 
 
 };

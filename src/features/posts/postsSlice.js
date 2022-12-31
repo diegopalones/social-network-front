@@ -3,8 +3,9 @@ import postsService from "./postsService";
 
 const initialState = {
   posts: [],
-  isLoading: false,
   post: {},
+  isLoading: false,
+  
 };
 
 export const getAllPosts = createAsyncThunk("posts/getAllPosts", async () => {
@@ -75,6 +76,15 @@ export const createPost = createAsyncThunk("posts/", async (postData) => {
     console.error(error);
   }
 });
+
+export const updatePost = createAsyncThunk("posts/updatePost", async (_id, post) => {
+  try {
+      return await postsService.updatePost(_id, post);
+  } catch (error) {
+      console.error(error);
+  }
+});
+
 
 export const postsSlice = createSlice({
   name: "posts",
