@@ -4,45 +4,61 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updatePost } from '../../../features/posts/postsSlice';
 
 
+
+
 const EditModal = ({ visible, setVisible }) => {
-    const { post } = useSelector((state) => state.posts);
-    const [form] = Form.useForm();
+    const { TextArea } = Input;
     const dispatch = useDispatch();
-
-    const onFinish = (values) => {
-        const postWithId = { ...values, _id: post._id };
-        dispatch(updatePost(postWithId));
-        setVisible(false);
-    };
-
-    useEffect(() => {
-        const postToEdit = {
-            ...post,
-        };
-        form.setFieldsValue(postToEdit);
-    }, [post]);
-
-    return (
-        <Modal
-            title="Edit Post"
-            visible={visible}
-            footer={[]}
-        >
-            <Form onFinish={onFinish} form={form}>
-                <Form.Item label="Post title" name="title">
-                    <Input placeholder="Post title" />
-                </Form.Item>
-                <Form.Item label="Post body" name="body">
-                    <Input placeholder="Post body" />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
-            </Form>
-        </Modal>
+    const [form] = Form.useForm();
+    const { post} = useSelector(
+      (state) => state.posts
     );
-};
-
-export default EditModal
+  
+    useEffect(() => {
+      const postToEdit = {
+        ...post,
+      };
+      form.setFieldsValue(postToEdit);
+    }, [post]);
+  
+  
+    const onFinish = (values) => {
+      const postWithId = { ...values, id: post._id };
+      dispatch(updatePost(postWithId));
+      setVisible(false);
+    };
+  
+    const handleCancel = () => {
+      setVisible(false);
+    };
+  
+    
+    return (
+      <div>
+        
+        <Modal
+          title="Edit Post"
+          visible={visible}
+          onCancel={handleCancel}
+          footer={[]}
+        >
+          <Form onFinish={onFinish} form={form}>
+            <Form.Item label="Post Title" name="title">
+              <Input placeholder="Post title" />
+            </Form.Item>
+            <Form.Item label="TextArea" name="body">
+              <TextArea rows={4} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
+    );
+  };
+  
+  export default EditModal;
+  

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { like, unLike, deletePost, getPostById } from "../../../features/posts/postsSlice";
+import { like, unLike, deletePost, getById } from "../../../features/posts/postsSlice";
 import { HeartOutlined, HeartFilled,DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import EditModal from "../EditModal/EditModal";
 
@@ -10,7 +10,8 @@ const Post = () => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const showModal = (_id) =>{
-    dispatch(getPostById(_id));
+    console.log(_id)
+    dispatch(getById(_id));
      
     setIsModalVisible(true);
   }

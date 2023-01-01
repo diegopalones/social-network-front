@@ -40,6 +40,42 @@ export const logout = createAsyncThunk("auth/logout", async () => {
     console.error(error);
   }
 });
+export const getInfo = createAsyncThunk("auth/getInfo", async () => {
+  try {
+      return await authService.getInfo();
+  } catch (error) {
+      console.error(error)
+  }
+});
+
+export const getUserByName = createAsyncThunk("auth/getUserByName", async (userName) => {
+
+  try {
+      
+      return await authService.getUserByName(userName);
+  } catch (error) {
+      console.error(error);
+  }
+});
+
+export const follow = createAsyncThunk("auth/follow", async (_id, thunkAPI) => {
+  try {
+      return await authService.follow(_id);
+      
+  } catch (error) {
+      console.error(error);
+      const message = error.response.data.message;
+      return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const unFollow = createAsyncThunk("auth/unLike", async (_id) => {
+  try {
+      return await authService.unFollow(_id);
+  } catch (error) {
+      console.error(error);
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",

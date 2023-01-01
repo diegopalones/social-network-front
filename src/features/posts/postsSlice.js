@@ -16,16 +16,14 @@ export const getAllPosts = createAsyncThunk("posts/getAllPosts", async () => {
   }
 });
 
-export const getPostById = createAsyncThunk(
-  "posts/getPostById",
-  async (_id) => {
-    try {
-      return await postsService.getPostById(_id);
-    } catch (error) {
+export const getById = createAsyncThunk("posts/getById", async (_id) => {
+
+  try {
+      return await postsService.getById(_id);
+  } catch (error) {
       console.error(error);
-    }
   }
-);
+});
 export const getPostByName = createAsyncThunk(
   "posts/getPostByName",
   async (title) => {
@@ -77,11 +75,15 @@ export const createPost = createAsyncThunk("posts/", async (postData) => {
   }
 });
 
-export const updatePost = createAsyncThunk("posts/updatePost", async (_id, post) => {
+export const updatePost = createAsyncThunk("posts/update", async (data, thunkAPI) => {
   try {
-      return await postsService.updatePost(_id, post);
+
+      return await postsService.updatePost(data);
   } catch (error) {
-      console.error(error);
+     
+      const message = error.response.data.message;
+      return thunkAPI.rejectWithValue(message);
+      // console.error(error)
   }
 });
 
@@ -105,9 +107,9 @@ export const postsSlice = createSlice({
       .addCase(getAllPosts.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(getPostById.fulfilled, (state, action) => {
-        state.post = action.payload;
-      });
+      .addCase(getById.fulfilled, (state, action) => {
+        state.post = action.payload.post;
+    })
     builder
       .addCase(getPostByName.fulfilled, (state, action) => {
         state.posts = action.payload;
@@ -138,9 +140,30 @@ export const postsSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         state.message = action.payload.message;
-      });
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        const posts = state.posts.map((post) => {
+            if (post._id === action.payload.post._id) {
+                post = action.payload.post;
+            }
+            return post;
+        });
+        state.posts = posts
+        state.isSuccess = true
+        state.isError = false;
+        state.message = action.payload.message
+    })
+    .addCase(updatePost.rejected, (state, action) => {
+      state.isError = true
+      state.isSuccess = false;
+      state.message = action.payload;
+      
+  });
+      
+      
+      
   },
 });
 
-export const { reset } = postsSlice.actions;
+export const { reset, resetMessage } = postsSlice.actions;
 export default postsSlice.reducer;
